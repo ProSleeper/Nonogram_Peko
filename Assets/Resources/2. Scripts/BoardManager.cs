@@ -49,7 +49,7 @@ public class BoardManager : MonoBehaviour
     {
 
 
-        drawSize = 0.75f/2;
+        drawSize = 0.75f;
         for (int i = 0; i < ROW; i++)
         {
             for (int j = 0; j < COLUMN; j++)

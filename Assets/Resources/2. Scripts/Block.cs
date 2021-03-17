@@ -10,10 +10,10 @@ public class Block : MonoBehaviour
 
     public void SpriteReset()
     {
-        sprite.sprite = spriteArray[0];
+        sprite.sprite = spriteArray[0]; 
     }
     
-    private void SpriteChange()
+    void SpriteChange()
     {
         sprite.sprite = spriteArray[1];
 

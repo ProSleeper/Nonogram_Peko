@@ -13,16 +13,21 @@ public class Block : MonoBehaviour
         sprite.sprite = spriteArray[0]; 
     }
     
-    void SpriteChange()
+    public void SpriteChange()
     {
         sprite.sprite = spriteArray[1];
-
     }
 
-    private void OnMouseDown()
-    {
-        SpriteChange();
-    }
+    //private void OnMouseDown()
+    //{
+    //    SpriteChange();
+    //}
+
+    //private void OnMouseDrag()
+    //{
+    //    SpriteChange();
+    //    Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+    //}
 
     // Start is called before the first frame update
     void Start()

@@ -17,11 +17,11 @@ public class CameraResolution : MonoBehaviour
             rect.height = scaleHeight;
             rect.y = (1f - scaleHeight) / 2f;
         }
-        else
-        {
-            rect.width = scaleWidth;
-            rect.x = (1f - scaleWidth) / 2f;
-        }
+        //else
+        //{
+        //    rect.width = scaleWidth;
+        //    rect.x = (1f - scaleWidth) / 2f;
+        //}
         camera.rect = rect;
     }
 }

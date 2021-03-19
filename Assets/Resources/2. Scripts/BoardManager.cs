@@ -114,7 +114,7 @@ public class BoardManager : MonoBehaviour
 
 
         width.text = "width: " + Screen.width.ToString();
-        height.text = "height: " + Screen.height.ToString();
+        //height.text = "height: " + Screen.height.ToString();
         
         resetButton = GameObject.Find("ResetButton").GetComponent<Button>();
         resetButton.onClick.AddListener(BlockSpriteReset);

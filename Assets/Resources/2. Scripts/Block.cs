@@ -4,9 +4,25 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    public enum BlockState
+    {
+        DEFAULT,
+        NUMBER,
+        X_OUTPUT
+    }
 
     private SpriteRenderer sprite;
     private Sprite[] spriteArray;
+    public BlockState blockState;
+
+    public int arrayXpos = 0;
+    public int arrayYpos = 0;
+
+
+    public (int x, int y) ArrayPosition()
+    {
+        return (arrayXpos, arrayYpos);
+    }
 
     public void SpriteReset()
     {
@@ -34,6 +50,7 @@ public class Block : MonoBehaviour
     {
         spriteArray = Resources.LoadAll<Sprite>("3. Textures/Board/tiles48");
         sprite = gameObject.GetComponent<SpriteRenderer>();
+        blockState = BlockState.DEFAULT;
     }
 
     // Update is called once per frame

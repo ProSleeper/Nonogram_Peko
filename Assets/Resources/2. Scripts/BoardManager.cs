@@ -17,7 +17,6 @@ public enum eBOARD_SIZE
 public class BoardManager : MonoBehaviour
 { 
     public static BoardManager instance = null;
-    Button resetButton;
 
     int COLUMN = 0;
     int ROW = 0;
@@ -36,6 +35,45 @@ public class BoardManager : MonoBehaviour
     public Text width;
     public Text height;
 
+    public void BlockSpriteChange(int x, int y, int startX, int startY)
+    {
+        //Debug.LogFormat("{0}, {1}", x, y);
+        //Debug.LogFormat("{0}, {1}", startX, startY);
+        int dirX = x - startX < 0 ? (x - startX) * -1 : (x - startX);
+        int dirY = y - startY < 0 ? (y - startY) * -1 : (y - startY);
+        Debug.Log(dirX);
+        Debug.Log(dirY);
+
+        //이 부분은 빠른 터치 or 마우스 이동으로 인해서 씹히는 부분을 보완해줌
+        //누른 지점부터 터치가 끝나거나 현재 터치하고 있는 부분까지의 모든 블럭을 체크해서 눌러지지 않았으면 다시 눌러ㅈ
+        if (dirX > dirY)    //절대 값으로 판단. 움직이는 방향이 가로
+        {
+            //왼 -> 오른 x값 음수
+            //오른 -> 왼 x값 양수
+
+            int direction = x - startX > 0 ? 1 : -1;
+
+            for (int i = startX; i != x + (-1 * direction); i+=direction)//
+            {
+                blockArray[i, y].GetComponent<Block>().SpriteChange();
+            }
+            
+        }
+        else if(dirX < dirY)//움직이는 방향 세로
+        {
+            //위 -> 아래 y값 음수
+            //아래 -> 위 y값 양수
+            int direction = y - startY > 0 ? 1 : -1;
+
+            for (int i = startY; i != y + (-1 * direction); i+=direction)    //↑방향
+            {
+                blockArray[x, i].GetComponent<Block>().SpriteChange();
+            }
+        }
+        
+        blockArray[x, y].GetComponent<Block>().SpriteChange();
+    }
+
     void BlockSpriteReset()
     {
         foreach (GameObject item in blockList)
@@ -50,7 +88,7 @@ public class BoardManager : MonoBehaviour
         COLUMN = (int)size;
         ROW = (int)size;
         drawSize = 0.39f / (ROW * 0.1f);
-
+    
         if (blockList.Count != 0)
         {
             foreach (GameObject block in blockList)
@@ -68,6 +106,8 @@ public class BoardManager : MonoBehaviour
                 block.transform.localScale = new Vector3(drawSize, drawSize, 1);
                 blockList.Add(block);
                 blockArray[(i * -1), j] = block;
+                block.GetComponent<Block>().arrayXpos = i * -1;
+                block.GetComponent<Block>().arrayYpos = j;
             }
         }
     }
@@ -105,18 +145,8 @@ public class BoardManager : MonoBehaviour
         Debug.Log(leftBottom.x);
         Debug.Log(rightTop.x);
 
-
-        //blockBoard = new Vector3(worldPointSize.x * 0.99f, worldPointSize.y * 0.3f);
-        //Debug.Log(blockBoard);
-        //Debug.Log(ScreenCenter);   //월드 좌표로 변환된 스크린의 크기
         
-
-
-
         width.text = "width: " + Screen.width.ToString();
         //height.text = "height: " + Screen.height.ToString();
-        
-        resetButton = GameObject.Find("ResetButton").GetComponent<Button>();
-        resetButton.onClick.AddListener(BlockSpriteReset);
     }
 }

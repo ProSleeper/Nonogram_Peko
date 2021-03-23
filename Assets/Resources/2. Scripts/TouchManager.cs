@@ -69,6 +69,8 @@ public class TouchManager : MonoBehaviour
 
             if (hit)
             {
+
+
                 //Debug.Log("마우스: " + mousePosition);
                 //Debug.Log("히트: " + hit.transform.position);
                 //마우스 좌표는 계속해서 변함
@@ -78,6 +80,8 @@ public class TouchManager : MonoBehaviour
                     return;
                 }
 
+                var hitPos = hit.collider.GetComponent<Block>().ArrayPosition();
+                var startPos = startBlock.GetComponent<Block>().ArrayPosition();
 
                 if (touchDirection == eDirection.BLOCK)
                 {
@@ -86,13 +90,22 @@ public class TouchManager : MonoBehaviour
                     {
                         Vector3 value = hitBlock.transform.position - startBlock.transform.position;
 
-                        //startBlock과 hitBlock이 대각선 상에 위치해 있을 때
-                        if (Mathf.Sqrt((value.x * value.x) + (value.y * value.y)) > startBlock.transform.localScale.x)
+                        ////startBlock과 hitBlock이 대각선 상에 위치해 있을 때
+                        //if (Mathf.Sqrt((value.x * value.x) + (value.y * value.y)) > startBlock.transform.localScale.x)
+                        //{
+                        //    //이 부분 때문에 만약 빠른 이동으로 인해서 1칸이 씹혀 버리면 문제가 생기는 부분이 있는듯
+                        //    //추후에 버그 수정이 가능할지 모르겠지만 그때 해결해보자.
+                        //    return;
+                        //}
+
+                        if ((hitPos.x != startPos.x) && (hitPos.y != startPos.y))
                         {
-                            //이 부분 때문에 만약 빠른 이동으로 인해서 1칸이 씹혀 버리면 문제가 생기는 부분이 있는듯
-                            //추후에 버그 수정이 가능할지 모르겠지만 그때 해결해보자.
                             return;
                         }
+
+
+                        //이 부분도 물리보다는 위에 hitpos와 startpos의 index좌표를 이용해서 하는 게 더 효율적일듯?
+                        //추후 변경
 
                         //x좌표 거리와 y좌표 거리를 계산해서 더 큰 쪽으로 터치가 가능하도록 함
                         if (Mathf.Abs(value.x) > Mathf.Abs(value.y))
@@ -105,8 +118,6 @@ public class TouchManager : MonoBehaviour
                         }
                     }
                 }
-                var hitPos = hit.collider.GetComponent<Block>().ArrayPosition();
-                var startPos = startBlock.GetComponent<Block>().ArrayPosition();
                 //이 부분이 나중에 로직 체크 부분도 될
                 BoardManager.instance.BlockSpriteChange(hitPos.x, hitPos.y, startPos.x, startPos.y);
 
@@ -190,6 +201,8 @@ public class TouchManager : MonoBehaviour
                             return;
                         }
 
+                        var hitPos = hit.collider.GetComponent<Block>().ArrayPosition();
+                        var startPos = startBlock.GetComponent<Block>().ArrayPosition();
 
                         if (touchDirection == eDirection.BLOCK)
                         {
@@ -198,7 +211,12 @@ public class TouchManager : MonoBehaviour
                             {
                                 Vector3 value = hitBlock.transform.position - startBlock.transform.position;
 
-                                if (Mathf.Sqrt((value.x * value.x) + (value.y * value.y)) > startBlock.transform.localScale.x)
+                                //if (Mathf.Sqrt((value.x * value.x) + (value.y * value.y)) > startBlock.transform.localScale.x)
+                                //{
+                                //    return;
+                                //}
+
+                                if ((hitPos.x != startPos.x) && (hitPos.y != startPos.y))
                                 {
                                     return;
                                 }
@@ -215,8 +233,7 @@ public class TouchManager : MonoBehaviour
                         }
 
                         //hit.collider.GetComponent<Block>().SpriteChange();  //이 부분이 나중에 로직 체크 부분도 될듯
-                        var hitPos = hit.collider.GetComponent<Block>().ArrayPosition();
-                        var startPos = startBlock.GetComponent<Block>().ArrayPosition();
+                        
                         //이 부분이 나중에 로직 체크 부분도 될
                         BoardManager.instance.BlockSpriteChange(hitPos.x, hitPos.y, startPos.x, startPos.y);
                     }
